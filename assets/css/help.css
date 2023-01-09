@@ -1,0 +1,115 @@
+body{
+    --bg: #b58894;
+}
+
+
+.help{
+    padding: 0 10%;
+}
+
+.help h2{
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.help_boxes{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.help_boxes a{
+    padding: 30px;
+    margin: 0 20px 20px 0;
+    background: #b17b8a;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    transition: ease-out 0.2s;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.help_boxes a:hover{
+   text-decoration: underline;
+}
+
+
+.help_forms{
+    margin: 50px 0px;
+}
+
+.help_forms form{
+    background: #b17b8a;
+    margin-bottom: 50px;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+
+.help_forms form textarea,
+.help_forms form input{
+    width: 100%;
+    font-size: 18px;
+    padding: 15px 10px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    border-radius: 10px;
+    background: var(--bg);
+}
+
+.help_forms form textarea{
+    height: 150px;
+}
+
+
+.help_forms form a{
+    display: inline-block;
+    font-size: 18px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+    background: var(--bg);
+    transition: 0.3s;
+    font-weight: 600;
+}
+
+
+.help_forms form a:hover{
+    text-decoration: underline;
+}
+
+
+
+.anchor{
+	padding: 0!important;
+    border: none!important;
+    margin: 0!important;
+}
+
+
+
+
+
+
+
+
+@media screen and (max-width: 800px){
+    
+    .help{
+        padding: 0 10px;
+    }
+
+
+    .help_boxes a{
+        width: 100%;
+        margin-bottom: 10px;
+        justify-content: space-between;
+    }
+    .help_boxes a img{
+        width: 50px;
+    }
+
+}

@@ -1,0 +1,106 @@
+body{
+    --bg: #9a759f;
+}
+
+.contact{
+    padding: 0 10%;
+    margin-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.contact h2{
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.contact ul{
+    list-style: none;
+    width: 50%;
+    margin-bottom: 40px;
+}
+
+.contact ul h4{
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 18px;
+    color: var(--text);
+    background: #966a9c;
+    margin-bottom: 5px;
+}
+
+.contact ul li{
+    line-height: 30px;
+    font-size: 20px;
+}
+
+.contact ul li p{
+    font-weight: bold;
+    color: var(--text);
+    font-size: 18px;
+}
+
+.contact ul li a{
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.contact ul li a:hover{
+    text-decoration: underline;
+}
+
+
+.contact form{
+    width: calc(50% - 30px);
+    background: #966a9c;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+
+.contact form textarea,
+.contact form input{
+    background: var(--bg);
+    width: 100%;
+    padding: 15px 10px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.contact form textarea{
+    height: 120px;
+}
+
+.contact form button{
+    --primary: var(--bg);
+}
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 800px){
+
+    .contact{
+        padding: 0 10px;
+    }
+    
+    .contact ul{
+        width: 100%;
+    }
+    
+    .contact form{
+        width: 100%;
+    }
+    
+}

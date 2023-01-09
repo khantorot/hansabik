@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="./content/icons/logo.png">
+    <title>Хан-Сабик | Оплата</title>
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/pay.css">
+</head>
+
+<body>
+    <nav>
+        <a href="./index.html" class="logo">
+            <img src="./content/icons/logo.svg" alt="logo"> 
+            <p>
+                <span>Хан</span>
+                <span>Сабик</span>
+                <img src="./content/icons/logo.png" alt="logo">
+            </p>
+        </a>
+        <div class="collected">Собрано в <span>2019</span> году <br>151 626 545 321 сомов</div>
+        <a href="./help.html" class="help_btn">Помочь</a>
+        <div class="menu_btn">меню</div>
+        <div class="menu">
+            <a href="./index.html">О Фонде</a>
+            <a href="./about.html">О нас</a>
+            <a href="./work.html">Программы</a>
+            <a href="./news.html">Новости</a>
+            <a href="./contact.html">Контакты</a>
+        </div>
+    </nav>
+
+    <section>
+        <div class="wrapper" id="app">
+            <div class="card-form">
+                <div class="card-list">
+                    <div class="card-item" v-bind:class="{ '-active' : isCardFlipped }">
+                        <div class="card-item__side -front">
+                            <div class="card-item__focus" v-bind:class="{'-active' : focusElementStyle }"
+                                v-bind:style="focusElementStyle" ref="focusElement"></div>
+                            <div class="card-item__cover">
+                                <img src="./content/images/bg.png" class="card-item__bg">
+                            </div>
+
+                            <div class="card-item__wrapper">
+                                <div class="card-item__top">
+                                    <div class="card-item__type">
+                                        <transition name="slide-fade-up">
+                                        </transition>
+                                    </div>
+                                </div>
+                                <label for="cardNumber" class="card-item__number" ref="cardNumber">
+                                    <template v-if="getCardType === 'amex'">
+                                        <span v-for="(n, $index) in amexCardMask" :key="$index">
+                                            <transition name="slide-fade-up">
+                                                <div class="card-item__numberItem"
+                                                    v-if="$index > 4 && $index < 14 && cardNumber.length > $index && n.trim() !== ''">
+                                                    *</div>
+                                                <div class="card-item__numberItem"
+                                                    :class="{ '-active' : n.trim() === '' }" :key="$index"
+                                                    v-else-if="cardNumber.length > $index">
+                                                    {{cardNumber[$index]}}
+                                                </div>
+                                                <div class="card-item__numberItem"
+                                                    :class="{ '-active' : n.trim() === '' }" v-else :key="$index + 1">
+                                                    {{n}}</div>
+                                            </transition>
+                                        </span>
+                                    </template>
+
+                                    <template v-else>
+                                        <span v-for="(n, $index) in otherCardMask" :key="$index">
+                                            <transition name="slide-fade-up">
+                                                <div class="card-item__numberItem"
+                                                    v-if="$index > 4 && $index < 15 && cardNumber.length > $index && n.trim() !== ''">
+                                                    *</div>
+                                                <div class="card-item__numberItem"
+                                                    :class="{ '-active' : n.trim() === '' }" :key="$index"
+                                                    v-else-if="cardNumber.length > $index">
+                                                    {{cardNumber[$index]}}
+                                                </div>
+                                                <div class="card-item__numberItem"
+                                                    :class="{ '-active' : n.trim() === '' }" v-else :key="$index + 1">
+                                                    {{n}}</div>
+                                            </transition>
+                                        </span>
+                                    </template>
+                                </label>
+                                <div class="card-item__content">
+                                    <label for="cardName" class="card-item__info" ref="cardName">
+                                        <div class="card-item__holder">Держатель карты</div>
+                                        <transition name="slide-fade-up">
+                                            <div class="card-item__name" v-if="cardName.length" key="1">
+                                                <transition-group name="slide-fade-right">
+                                                    <span class="card-item__nameItem"
+                                                        v-for="(n, $index) in cardName.replace(/\s\s+/g, ' ')"
+                                                        v-if="$index === $index" v-bind:key="$index + 1">{{n}}</span>
+                                                </transition-group>
+                                            </div>
+                                            <div class="card-item__name" v-else key="2">ФИО</div>
+                                        </transition>
+                                    </label>
+                                    <div class="card-item__date" ref="cardDate">
+                                        <label for="cardMonth" class="card-item__dateTitle">Истекает</label>
+                                        <label for="cardMonth" class="card-item__dateItem">
+                                            <transition name="slide-fade-up">
+                                                <span v-if="cardMonth" v-bind:key="cardMonth">{{cardMonth}}</span>
+                                                <span v-else key="2">MM</span>
+                                            </transition>
+                                        </label>
+                                        /
+                                        <label for="cardYear" class="card-item__dateItem">
+                                            <transition name="slide-fade-up">
+                                                <span v-if="cardYear"
+                                                    v-bind:key="cardYear">{{String(cardYear).slice(2,4)}}</span>
+                                                <span v-else key="2">YY</span>
+                                            </transition>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-item__side -back">
+                            <div class="card-item__cover">
+                                <img src="./content/images/about.png" class="card-item__bg">
+                            </div>
+                            <div class="card-item__band"></div>
+                            <div class="card-item__cvv">
+                                <div class="card-item__cvvTitle">CVV</div>
+                                <div class="card-item__cvvBand">
+                                    <span v-for="(n, $index) in cardCvv" :key="$index">
+                                        *
+                                    </span>
+
+                                </div>
+                                <div class="card-item__type">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-form__inner">
+                    <div class="card-input">
+                        <label for="cardNumber" class="card-input__label">Номер карты</label>
+                        <input type="text" id="cardNumber" class="card-input__input" v-mask="generateCardNumberMask"
+                            v-model="cardNumber" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardNumber"
+                            autocomplete="off">
+                    </div>
+                    <div class="card-input">
+                        <label for="cardName" class="card-input__label">Держатель карты</label>
+                        <input type="text" id="cardName" class="card-input__input" v-model="cardName"
+                            v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardName" autocomplete="off">
+                    </div>
+                    <div class="card-form__row">
+                        <div class="card-form__col">
+                            <div class="card-form__group">
+                                <label for="cardMonth" class="card-input__label">Дата окончания срока</label>
+                                <select class="card-input__input -select" id="cardMonth" v-model="cardMonth"
+                                    v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardDate">
+                                    <option value="" disabled selected>Мецяс</option>
+                                    <option v-bind:value="n < 10 ? '0' + n : n" v-for="n in 12"
+                                        v-bind:disabled="n < minCardMonth" v-bind:key="n">
+                                        {{n < 10 ? '0' + n : n}}
+                                    </option>
+                                </select>
+                                <select class="card-input__input -select" id="cardYear" v-model="cardYear"
+                                    v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardDate">
+                                    <option value="" disabled selected>Год</option>
+                                    <option v-bind:value="$index + minCardYear" v-for="(n, $index) in 12"
+                                        v-bind:key="n">
+                                        {{$index + minCardYear}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-form__col -cvv">
+                            <div class="card-input">
+                                <label for="cardCvv" class="card-input__label">CVV</label>
+                                <input type="text" class="card-input__input" id="cardCvv" v-mask="'####'" maxlength="4"
+                                    v-model="cardCvv" v-on:focus="flipCard(true)" v-on:blur="flipCard(false)"
+                                    autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="card-form__button">
+                        Отправить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+   
+    <section class="feedback_section">
+        <h2>Свяжитесь с нами</h2>
+        <form action="">
+            <input type="text" placeholder="Имя">
+            <input type="text" placeholder="Номер или почта">
+            <textarea placeholder="Ваше письмо"></textarea>
+            <button class="button">
+                <span class="default">Отправить</span>
+                <span class="success">
+                    <svg viewBox="0 0 16 16">
+                        <polyline points="3.75 9 7 12 13 5"></polyline>
+                    </svg>Спасибо!
+                </span>
+                <svg class="trails" viewBox="0 0 33 64">
+                    <path d="M26,4 C28,13.3333333 29,22.6666667 29,32 C29,41.3333333 28,50.6666667 26,60"></path>
+                    <path d="M6,4 C8,13.3333333 9,22.6666667 9,32 C9,41.3333333 8,50.6666667 6,60"></path>
+                </svg>
+                <div class="plane">
+                    <div class="left"></div>
+                    <div class="right"></div>
+                </div>
+            </button>
+        </form>
+    </section>
+    <footer>
+        <img src="./content/icons/pathsf.svg" alt="pathsf" class="pathsf_img">
+        <h1>Хан <img src="./content/icons/logo.png" alt=""> Сабик</h1>
+        <div class="contact_boxes">
+            <div>
+                <h4>Зайдите к нам</h4>
+                <a href="http://2gis.com/" target="_blaank">г. Бишкек, ул. Токтогула 99 Кыргызстан</a>
+            </div>
+            <div>
+                <h4>Позвоните нам</h4>
+                <a href="tel:+312515515">0312 515 515</a>
+                <a href="tel:+968706462644">0706 46 26 44</a>
+                <a href="tel:+9681462644">0551 46 26 44</a>
+            </div>
+            <div>
+                <h4>Напишите нам</h4>
+                <a href="mailto:hansabik@gmail.com">hansabik@gmail.com</a>
+                <a href="mailto:hswork@gmail.com">hswork@gmail.com</a>
+                <a href="mailto:hshelpt@gmail.com">hshelp@gmail.com</a>
+            </div>
+        </div>
+        <div class="menu">
+            <a href="./index.html">О Фонде</a>
+            <a href="./about.html">О нас</a>
+            <a href="./work.html">Программы</a>
+            <a href="./news.html">Новости</a>
+            <a href="./contact.html">Контакты</a>
+        </div>
+        <h5>© 2019 Хан-Сабик</h5>
+    </footer>
+
+    <script src="./assets/js/gsap_min.js"></script>
+    <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/vue.js"></script>
+    <script src="./assets/js/vue_mask.js"></script>
+    <script src="./assets/js/pay.js"></script>
+</body>
+
+</html>
